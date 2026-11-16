@@ -1,0 +1,309 @@
+{
+  "name": "zovo-xsd-viewer",
+  "displayName": "XSD Viewer & Schema Diagram",
+  "description": "XSD viewer for VS Code: open XML Schema (.xsd) files and the schemas in .wsdl files as a tree and a diagram, with imports and includes resolved across the workspace, search and jump to line. Offline, no account.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#13334C",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/xsd-viewer-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/theluckystrike/xsd-viewer-vscode/issues"
+  },
+  "homepage": "https://github.com/theluckystrike/xsd-viewer-vscode#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Visualization",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "xsd",
+    "xml schema",
+    "schema",
+    "xml",
+    "diagram"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onUri"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "xsdViewer.viewer",
+        "displayName": "XSD Viewer & Schema Diagram",
+        "selector": [
+          {
+            "filenamePattern": "*.xsd"
+          },
+          {
+            "filenamePattern": "*.wsdl"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "xsdViewer.openViewer",
+        "title": "Open in XSD Viewer",
+        "category": "XSD Viewer",
+        "icon": "$(type-hierarchy)"
+      },
+      {
+        "command": "xsdViewer.openAsText",
+        "title": "Open as Text",
+        "category": "XSD Viewer",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "xsdViewer.openSample",
+        "title": "Open the Sample Schema",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.openWalkthrough",
+        "title": "Get Started",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.moreViewers",
+        "title": "More free tools by Zovo",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.supportDeveloper",
+        "title": "Support the developer",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.sample",
+        "title": "Generate Sample XML (Pro)",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.validate",
+        "title": "Validate XML Against the Schema (Pro)",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.docs",
+        "title": "Export HTML Documentation (Pro)",
+        "category": "XSD Viewer"
+      },
+      {
+        "command": "xsdViewer.zovoPro.sample",
+        "title": "Zovo Pro: Generate sample XML"
+      },
+      {
+        "command": "xsdViewer.zovoPro.validate",
+        "title": "Zovo Pro: Validate XML against the schema"
+      },
+      {
+        "command": "xsdViewer.zovoPro.docs",
+        "title": "Zovo Pro: Export HTML documentation"
+      },
+      {
+        "command": "xsdViewer.getPro",
+        "title": "Get Zovo Pro (USD 19 once, all 22 Zovo extensions)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.payWithPayPal",
+        "title": "Pay for Zovo Pro with PayPal (USD 19, team of 5 USD 59)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.unlockWithSponsors",
+        "title": "I already paid: unlock with GitHub Sponsors",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.removeLicense",
+        "title": "Remove Zovo Pro from this editor",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.payByCard",
+        "title": "Pay for Zovo Pro by card (USD 19)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "xsdViewer.enterKey",
+        "title": "Enter a key",
+        "category": "Zovo Pro"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "xsdViewer.openViewer",
+          "when": "resourceFilename =~ /\\.(xsd|wsdl)$/i && activeEditor == workbench.editors.files.textFileEditor",
+          "group": "navigation@1"
+        },
+        {
+          "command": "xsdViewer.openAsText",
+          "when": "activeCustomEditorId == 'xsdViewer.viewer'",
+          "group": "navigation@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "xsdViewer.openViewer",
+          "when": "resourceFilename =~ /\\.(xsd|wsdl)$/i && !explorerResourceIsFolder",
+          "group": "navigation@9"
+        },
+        {
+          "command": "xsdViewer.zovoPro.sample",
+          "when": "resourceFilename =~ /\\.(xsd|wsdl)$/i && !explorerResourceIsFolder && config.xsdViewer.showProTools",
+          "group": "zovoPro@1"
+        },
+        {
+          "command": "xsdViewer.zovoPro.validate",
+          "when": "resourceFilename =~ /\\.xml$/i && !explorerResourceIsFolder && config.xsdViewer.showProTools",
+          "group": "zovoPro@2"
+        },
+        {
+          "command": "xsdViewer.zovoPro.docs",
+          "when": "resourceFilename =~ /\\.(xsd|wsdl)$/i && !explorerResourceIsFolder && config.xsdViewer.showProTools",
+          "group": "zovoPro@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "xsdViewer.openAsText",
+          "when": "activeCustomEditorId == 'xsdViewer.viewer'"
+        },
+        {
+          "command": "xsdViewer.sample",
+          "when": "config.xsdViewer.showProTools"
+        },
+        {
+          "command": "xsdViewer.validate",
+          "when": "config.xsdViewer.showProTools"
+        },
+        {
+          "command": "xsdViewer.docs",
+          "when": "config.xsdViewer.showProTools"
+        },
+        {
+          "command": "xsdViewer.zovoPro.sample",
+          "when": "false"
+        },
+        {
+          "command": "xsdViewer.zovoPro.validate",
+          "when": "false"
+        },
+        {
+          "command": "xsdViewer.zovoPro.docs",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "XSD Viewer & Schema Diagram",
+      "properties": {
+        "xsdViewer.validateOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "With Zovo Pro: check an XML file again each time it is saved, after you validated it once in this window. Also checks again when a schema file of that set is saved."
+        },
+        "xsdViewer.sampleMaxDepth": {
+          "type": "number",
+          "default": 8,
+          "minimum": 1,
+          "maximum": 30,
+          "description": "Generate sample XML: how many levels deep optional elements go. Required elements always go in."
+        },
+        "xsdViewer.showProTools": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Zovo Pro tools (sample XML, validation, HTML documentation) in the Command Palette, the Explorer menu and the viewer toolbar. Everything free stays visible."
+        },
+        "xsdViewer.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask once for a Marketplace rating after schemas opened without an error at two times at least 30 minutes apart. \"Later\" asks one more time after 7 days, \"No thanks\" never asks again. Nothing is sent anywhere."
+        },
+        "xsdViewer.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free tools and Zovo Pro links at the bottom of the viewer. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "xsdViewer.start",
+        "title": "Get started with the XSD Viewer & Schema Diagram",
+        "description": "Read XML Schema files as a tree and a diagram inside VS Code.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a schema",
+            "description": "Right-click a .xsd or .wsdl file in the Explorer and choose Open in XSD Viewer, or click the diagram button in the title bar of an open schema. The file still opens as text by default.\n[Open the sample schema](command:xsdViewer.openSample)",
+            "media": {
+              "image": "images/screenshot.png",
+              "altText": "A purchase order schema open in the XSD Viewer: the component tree, the diagram of the order element and its details."
+            },
+            "completionEvents": [
+              "onCommand:xsdViewer.openSample"
+            ]
+          },
+          {
+            "id": "browse",
+            "title": "Tree, diagram and search",
+            "description": "Pick a component in the tree on the left to draw its diagram. Click the + on a box to open its content, even when the type comes from another file. Type in the search box to find any element or type in the whole schema set; double-click a box to jump to its line.",
+            "media": {
+              "markdown": "walkthrough/browse.md"
+            }
+          },
+          {
+            "id": "pro",
+            "title": "Sample XML, validation and documentation",
+            "description": "Zovo Pro tools, 1 free try each: generate a sample XML document for an element, validate XML files against the schema set with errors in the Problems panel, or write HTML documentation for the whole set.",
+            "media": {
+              "markdown": "walkthrough/pro.md"
+            }
+          },
+          {
+            "id": "zovo-related",
+            "title": "Tools that often go with XML schemas",
+            "description": "If your project also has XML to format, EDI messages or OpenAPI files, these free Zovo extensions open them. A link opens the extension page, and you choose there whether to install it.\n[Format XML & XPath Tools](command:extension.open?%5B%22zovo.zovo-xml-xpath-tools%22%5D)\n[EDI Viewer](command:extension.open?%5B%22zovo.zovo-edi-viewer%22%5D)\n[Swagger Editor & OpenAPI](command:extension.open?%5B%22zovo.swagger-openapi-viewer%22%5D)",
+            "media": {
+              "markdown": "walkthrough/related.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node scripts/test.js",
+    "package": "npx -y @vscode/vsce@3 package --no-dependencies"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike/sponsorships?tier_id=679878"
+  }
+}

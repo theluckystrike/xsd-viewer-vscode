@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Order lines, included by purchase-order.xsd. It has no target namespace of its own, so it takes the namespace of
+     the schema that includes it. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:cmn="urn:example:common"
+           elementFormDefault="qualified">
+
+  <xs:import namespace="urn:example:common" schemaLocation="common-types.xsd"/>
+
+  <xs:complexType name="OrderLineType">
+    <xs:annotation><xs:documentation>One product on the order with its quantity and price.</xs:documentation></xs:annotation>
+    <xs:sequence>
+      <xs:element name="Product" type="ProductRefType"/>
+      <xs:element name="Quantity" type="QuantityType"/>
+      <xs:element name="UnitPrice" type="cmn:AmountType"/>
+      <xs:element name="DeliveryDate" type="xs:date" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="lineNo" type="xs:positiveInteger" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="ProductRefType">
+    <xs:choice>
+      <xs:element name="SKU">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="SKU-[0-9]{5}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="GTIN">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{13}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:choice>
+    <xs:attribute name="description" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="QuantityType">
+    <xs:simpleContent>
+      <xs:extension base="QuantityValue">
+        <xs:attribute name="unit" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:token">
+              <xs:enumeration value="piece"/>
+              <xs:enumeration value="box"/>
+              <xs:enumeration value="kg"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="QuantityValue">
+    <xs:restriction base="xs:decimal">
+      <xs:minExclusive value="0"/>
+      <xs:maxInclusive value="100000"/>
+      <xs:fractionDigits value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

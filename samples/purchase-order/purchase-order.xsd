@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sample schema for the XSD Viewer & Schema Diagram. Northwind Supply is a made-up company. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:po="urn:example:purchase-order"
+           xmlns:cmn="urn:example:common"
+           targetNamespace="urn:example:purchase-order"
+           elementFormDefault="qualified"
+           version="1.4">
+
+  <xs:import namespace="urn:example:common" schemaLocation="common-types.xsd"/>
+  <xs:include schemaLocation="order-lines.xsd"/>
+
+  <xs:element name="PurchaseOrder" type="po:PurchaseOrderType">
+    <xs:annotation>
+      <xs:documentation>A purchase order sent by a customer to Northwind Supply. One order holds one or more lines and is billed to one party.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="OrderAcknowledgement" type="po:AcknowledgementType">
+    <xs:annotation>
+      <xs:documentation>The answer to a purchase order: accepted, accepted with changes, or rejected.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="PurchaseOrderType">
+    <xs:sequence>
+      <xs:element name="OrderNumber" type="po:OrderNumberType">
+        <xs:annotation><xs:documentation>The buyer's number for this order, unique per buyer.</xs:documentation></xs:annotation>
+      </xs:element>
+      <xs:element name="IssueDate" type="xs:date"/>
+      <xs:element name="Buyer" type="cmn:PartyType"/>
+      <xs:element name="Seller" type="cmn:PartyType" minOccurs="0"/>
+      <xs:choice>
+        <xs:annotation><xs:documentation>Where the goods go: a postal address or a pickup point.</xs:documentation></xs:annotation>
+        <xs:element name="ShipTo" type="cmn:AddressType"/>
+        <xs:element name="PickupPoint" type="po:PickupPointType"/>
+      </xs:choice>
+      <xs:element name="Line" type="po:OrderLineType" maxOccurs="unbounded"/>
+      <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="5"/>
+    </xs:sequence>
+    <xs:attribute name="currency" type="cmn:CurrencyCode" use="required"/>
+    <xs:attribute name="priority" type="po:PriorityType" default="normal"/>
+  </xs:complexType>
+
+  <xs:complexType name="AcknowledgementType">
+    <xs:sequence>
+      <xs:element name="OrderNumber" type="po:OrderNumberType"/>
+      <xs:element name="Status">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="accepted"/>
+            <xs:enumeration value="changed"/>
+            <xs:enumeration value="rejected"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Reason" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PickupPointType">
+    <xs:complexContent>
+      <xs:extension base="cmn:AddressType">
+        <xs:sequence>
+          <xs:element name="OpeningHours" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="pointId" type="xs:NCName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="OrderNumberType">
+    <xs:annotation><xs:documentation>Two to four capital letters, a dash and six digits, for example NW-104233.</xs:documentation></xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Z]{2,4}-[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PriorityType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="low"/>
+      <xs:enumeration value="normal"/>
+      <xs:enumeration value="rush"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

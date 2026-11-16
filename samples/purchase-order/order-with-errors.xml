@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- An order with three mistakes, to try the validation (made-up data). -->
+<PurchaseOrder xmlns="urn:example:purchase-order" xmlns:cmn="urn:example:common"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:example:purchase-order purchase-order.xsd"
+               currency="EURO">
+  <OrderNumber>104233</OrderNumber>
+  <IssueDate>2026-11-02</IssueDate>
+  <Buyer>
+    <cmn:Name>Harbor Lane Bakery</cmn:Name>
+    <cmn:Address>
+      <cmn:Street>Hafenstrasse 12</cmn:Street>
+      <cmn:City>Hamburg</cmn:City>
+      <cmn:Country>DE</cmn:Country>
+    </cmn:Address>
+  </Buyer>
+  <ShipTo>
+    <cmn:Street>Hafenstrasse 12</cmn:Street>
+    <cmn:City>Hamburg</cmn:City>
+    <cmn:Country>DE</cmn:Country>
+  </ShipTo>
+  <Line lineNo="1">
+    <Product>
+      <SKU>SKU-20418</SKU>
+    </Product>
+    <Quantity unit="crate">12</Quantity>
+    <UnitPrice>18.40</UnitPrice>
+  </Line>
+</PurchaseOrder>

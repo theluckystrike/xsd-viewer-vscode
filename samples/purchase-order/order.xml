@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A valid sample order (made-up data). -->
+<PurchaseOrder xmlns="urn:example:purchase-order" xmlns:cmn="urn:example:common"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:example:purchase-order purchase-order.xsd"
+               currency="EUR" priority="rush">
+  <OrderNumber>NW-104233</OrderNumber>
+  <IssueDate>2026-11-02</IssueDate>
+  <Buyer>
+    <cmn:Name>Harbor Lane Bakery</cmn:Name>
+    <cmn:TaxId>DE811907453</cmn:TaxId>
+    <cmn:Address>
+      <cmn:Street>Hafenstrasse 12</cmn:Street>
+      <cmn:City>Hamburg</cmn:City>
+      <cmn:PostalCode>20457</cmn:PostalCode>
+      <cmn:Country>DE</cmn:Country>
+    </cmn:Address>
+    <cmn:Contact>
+      <cmn:Person>Lena Hart</cmn:Person>
+      <cmn:Email>lena@harborlane.example</cmn:Email>
+    </cmn:Contact>
+  </Buyer>
+  <ShipTo>
+    <cmn:Street>Hafenstrasse 12</cmn:Street>
+    <cmn:City>Hamburg</cmn:City>
+    <cmn:Country>DE</cmn:Country>
+  </ShipTo>
+  <Line lineNo="1">
+    <Product description="Rye flour, 25 kg">
+      <SKU>SKU-20418</SKU>
+    </Product>
+    <Quantity unit="box">12</Quantity>
+    <UnitPrice currency="EUR">18.40</UnitPrice>
+  </Line>
+  <Line lineNo="2">
+    <Product>
+      <GTIN>4006381333931</GTIN>
+    </Product>
+    <Quantity unit="kg">2.5</Quantity>
+    <UnitPrice>7.90</UnitPrice>
+    <DeliveryDate>2026-11-09</DeliveryDate>
+  </Line>
+  <Note>Deliver through the back gate.</Note>
+</PurchaseOrder>

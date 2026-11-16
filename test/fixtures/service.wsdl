@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="urn:test:svc" xmlns:typ="urn:test:svc:types" targetNamespace="urn:test:svc">
+  <wsdl:types>
+    <xs:schema targetNamespace="urn:test:svc:types" elementFormDefault="qualified">
+      <xs:complexType name="Money">
+        <xs:simpleContent><xs:extension base="xs:decimal"><xs:attribute name="ccy" type="xs:string" use="required"/></xs:extension></xs:simpleContent>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema targetNamespace="urn:test:svc" elementFormDefault="qualified">
+      <xs:import namespace="urn:test:svc:types"/>
+      <xs:element name="GetQuote">
+        <xs:complexType><xs:sequence><xs:element name="Symbol" type="xs:string"/></xs:sequence></xs:complexType>
+      </xs:element>
+      <xs:element name="GetQuoteResponse">
+        <xs:complexType><xs:sequence><xs:element name="Price" type="typ:Money"/></xs:sequence></xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetQuoteRequest"><wsdl:part name="body" element="tns:GetQuote"/></wsdl:message>
+</wsdl:definitions>

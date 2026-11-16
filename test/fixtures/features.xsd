@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:test:features" targetNamespace="urn:test:features" elementFormDefault="qualified">
+  <xs:element name="Catalog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Part" maxOccurs="unbounded"/>
+        <xs:element ref="Shape" minOccurs="1"/>
+        <xs:element name="Owner" type="OwnerType"/>
+        <xs:group ref="Extras"/>
+        <xs:any namespace="##other" processContents="lax" minOccurs="1"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="Audit"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Part" type="PartType"/>
+  <xs:complexType name="PartType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element ref="Part" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+  <xs:element name="Shape" abstract="true" type="ShapeType"/>
+  <xs:element name="Circle" substitutionGroup="Shape" type="CircleType"/>
+  <xs:complexType name="ShapeType" abstract="true"><xs:sequence/></xs:complexType>
+  <xs:complexType name="CircleType">
+    <xs:complexContent><xs:extension base="ShapeType"><xs:sequence><xs:element name="Radius" type="xs:double"/></xs:sequence></xs:extension></xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="OwnerType">
+    <xs:sequence><xs:element name="Kind" type="AbstractKind"/></xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AbstractKind" abstract="true"><xs:sequence><xs:element name="Label" type="xs:string"/></xs:sequence></xs:complexType>
+  <xs:complexType name="PersonKind"><xs:complexContent><xs:extension base="AbstractKind"><xs:sequence><xs:element name="Born" type="xs:gYear"/></xs:sequence></xs:extension></xs:complexContent></xs:complexType>
+  <xs:group name="Extras">
+    <xs:sequence>
+      <xs:element name="Tags" type="TagList"/>
+      <xs:element name="Size" type="SizeType"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:attributeGroup name="Audit">
+    <xs:attribute name="created" type="xs:dateTime" use="required"/>
+    <xs:attribute name="by" type="xs:NCName"/>
+  </xs:attributeGroup>
+  <xs:simpleType name="TagList"><xs:list itemType="xs:NCName"/></xs:simpleType>
+  <xs:simpleType name="SizeType">
+    <xs:union>
+      <xs:simpleType><xs:restriction base="xs:positiveInteger"><xs:maxInclusive value="99"/></xs:restriction></xs:simpleType>
+      <xs:simpleType><xs:restriction base="xs:token"><xs:enumeration value="large"/></xs:restriction></xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

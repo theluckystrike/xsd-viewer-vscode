@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:lib="urn:test:lib" xmlns:m="urn:test:main" targetNamespace="urn:test:main" elementFormDefault="qualified">
+  <xs:import namespace="urn:test:lib" schemaLocation="https://schemas.example.com/lib/1.0/lib.xsd"/>
+  <xs:import namespace="urn:test:nowhere" schemaLocation="http://example.org/nowhere.xsd"/>
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+  <xs:element name="Doc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lib:Item" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="xml:lang" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

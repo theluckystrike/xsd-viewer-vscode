@@ -1,0 +1,97 @@
+/* XSD Viewer & Schema Diagram by Zovo: viewer page. Colours follow the VS Code theme. */
+html, body { height: 100%; margin: 0; padding: 0; }
+body { font-family: var(--vscode-font-family); font-size: var(--vscode-font-size, 13px); color: var(--vscode-foreground); background: var(--vscode-editor-background); overflow: hidden; }
+#app { display: flex; flex-direction: column; height: 100vh; }
+#toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 5px 8px; border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,.35)); }
+#toolbar .spacer { flex: 1; }
+.chip { font-weight: 600; padding: 1px 8px; border-radius: 10px; background: var(--vscode-badge-background); color: var(--vscode-badge-foreground); white-space: nowrap; }
+#q { width: 230px; padding: 3px 6px; background: var(--vscode-input-background); color: var(--vscode-input-foreground); border: 1px solid var(--vscode-input-border, transparent); border-radius: 2px; font: inherit; }
+#q:focus { outline: 1px solid var(--vscode-focusBorder); }
+select { background: var(--vscode-dropdown-background); color: var(--vscode-dropdown-foreground); border: 1px solid var(--vscode-dropdown-border, transparent); padding: 2px 4px; font: inherit; }
+button { background: var(--vscode-button-secondaryBackground, #3a3d41); color: var(--vscode-button-secondaryForeground, #fff); border: 0; padding: 3px 9px; border-radius: 2px; cursor: pointer; font: inherit; }
+button:hover { background: var(--vscode-button-secondaryHoverBackground, #45494e); }
+.tabs button.on { background: var(--vscode-button-background); color: var(--vscode-button-foreground); }
+.grp button { margin-right: 1px; }
+.muted { color: var(--vscode-descriptionForeground); }
+.small { font-size: 11px; }
+.warn { color: var(--vscode-editorWarning-foreground, #cca700); }
+#banner { padding: 4px 10px; background: var(--vscode-inputValidation-warningBackground, rgba(204,167,0,.15)); border-bottom: 1px solid var(--vscode-inputValidation-warningBorder, #cca700); font-size: 12px; }
+#banner a, a { color: var(--vscode-textLink-foreground); text-decoration: none; }
+a:hover { text-decoration: underline; }
+#main { flex: 1; display: flex; min-height: 0; }
+#main[hidden] { display: none; }
+#side { width: 290px; min-width: 200px; overflow: auto; border-right: 1px solid var(--vscode-panel-border, rgba(128,128,128,.35)); padding: 4px 0; }
+#center { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#diagramWrap { flex: 1; overflow: auto; outline: none; }
+#diagramWrap[hidden], #filesView[hidden] { display: none; }
+#diagram { padding: 6px; }
+#filesView { flex: 1; overflow: auto; padding: 8px 12px; }
+#details { width: 330px; min-width: 240px; overflow: auto; border-left: 1px solid var(--vscode-panel-border, rgba(128,128,128,.35)); padding: 8px 12px; }
+#details h3 { margin: 2px 0 2px; font-size: 14px; word-break: break-all; }
+#details h4 { margin: 14px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--vscode-descriptionForeground); }
+#details .kind { font-weight: 400; color: var(--vscode-descriptionForeground); }
+#details .ns { font-family: var(--vscode-editor-font-family); font-size: 11px; color: var(--vscode-descriptionForeground); word-break: break-all; margin-bottom: 6px; }
+table.facts, table.attrs, table.files { border-collapse: collapse; width: 100%; font-size: 12px; }
+table.facts th, table.attrs th, table.files th { text-align: left; font-weight: 600; padding: 3px 6px 3px 0; vertical-align: top; color: var(--vscode-descriptionForeground); white-space: nowrap; }
+table.facts td, table.attrs td, table.files td { padding: 3px 6px 3px 0; vertical-align: top; word-break: break-word; }
+table.attrs tr, table.files tr { border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,.2)); }
+code { font-family: var(--vscode-editor-font-family); font-size: 12px; }
+.doc { white-space: pre-wrap; font-size: 12px; background: var(--vscode-textBlockQuote-background, rgba(128,128,128,.1)); border-left: 3px solid #2f8f83; padding: 6px 8px; max-height: 260px; overflow: auto; }
+.enum { max-height: 220px; overflow: auto; }
+.btns button { margin: 4px 4px 0 0; }
+.empty { padding: 8px 12px; color: var(--vscode-descriptionForeground); }
+.problems { font-size: 12px; padding-left: 18px; }
+.st { font-size: 11px; color: var(--vscode-descriptionForeground); }
+/* tree */
+.grp-h { padding: 4px 8px 2px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--vscode-descriptionForeground); cursor: pointer; user-select: none; }
+.grp-h .tw::before { content: '▾'; display: inline-block; width: 12px; }
+.grp-h.col .tw::before { content: '▸'; }
+.row { display: flex; align-items: center; gap: 4px; padding: 1px 8px; cursor: pointer; white-space: nowrap; line-height: 20px; }
+.row:hover { background: var(--vscode-list-hoverBackground); }
+.row.sel { background: var(--vscode-list-activeSelectionBackground); color: var(--vscode-list-activeSelectionForeground); }
+.row .tw { width: 12px; flex: none; text-align: center; font-size: 10px; color: var(--vscode-descriptionForeground); }
+.row .tw.closed::before { content: '▸'; }
+.row .tw.open::before { content: '▾'; }
+.row .ic { flex: none; width: 15px; height: 15px; line-height: 15px; border-radius: 3px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; background: #2f8f83; }
+.ic.k-complexType { background: #3d6fb4; } .ic.k-simpleType { background: #8a5cc2; } .ic.k-group { background: #c97a1d; } .ic.k-attributeGroup, .ic.k-attribute { background: #6b7a8c; } .ic.k-notation { background: #777; }
+.row .nm { overflow: hidden; text-overflow: ellipsis; }
+.row .fn { margin-left: auto; padding-left: 8px; font-size: 11px; color: var(--vscode-descriptionForeground); overflow: hidden; text-overflow: ellipsis; }
+.row .occ, .row .ty { font-size: 11px; color: var(--vscode-descriptionForeground); font-family: var(--vscode-editor-font-family); }
+.row.sel .occ, .row.sel .ty, .row.sel .fn { color: inherit; opacity: .85; }
+.row .comp-l { font-size: 11px; font-weight: 600; padding: 0 6px; border-radius: 8px; border: 1px solid #2f8f83; }
+.comp-l.choice { border-color: #c97a1d; } .comp-l.all { border-color: #7756c0; }
+.row .pad { flex: none; display: inline-block; }
+mark { background: var(--vscode-editor-findMatchHighlightBackground, rgba(234,92,0,.33)); color: inherit; }
+/* diagram (SVG classes from diagram.js) */
+.xsd-diagram { font-family: var(--vscode-font-family); }
+.xsd-diagram .edges path { fill: none; stroke: var(--vscode-descriptionForeground); stroke-width: 1.2; opacity: .75; }
+.xsd-diagram .n { cursor: pointer; }
+.xsd-diagram .box .bg { fill: var(--vscode-editorWidget-background, #252526); stroke: #5f87ab; stroke-width: 1.2; }
+.xsd-diagram .box .strip { fill: #2f8f83; }
+.xsd-diagram .box.opt .strip { fill: var(--vscode-editorWidget-background, #252526); stroke: #2f8f83; stroke-width: 1.2; }
+.xsd-diagram .box.root .bg { stroke: var(--vscode-focusBorder, #007fd4); stroke-width: 1.8; }
+.xsd-diagram .box.warn .bg { stroke: var(--vscode-editorWarning-foreground, #cca700); }
+.xsd-diagram .box.abstract .t-name { font-style: italic; }
+.xsd-diagram .n.sel .bg, .xsd-diagram .n.sel rect { stroke: var(--vscode-focusBorder, #007fd4); stroke-width: 2.4; }
+.xsd-diagram .t-name { font-weight: 600; font-size: 12.5px; fill: var(--vscode-foreground); }
+.xsd-diagram .box.opt .t-name { fill: var(--vscode-descriptionForeground); }
+.xsd-diagram .t-type, .xsd-diagram .t-attr { font-size: 11px; font-family: var(--vscode-editor-font-family); fill: var(--vscode-descriptionForeground); }
+.xsd-diagram .t-attr.req { fill: var(--vscode-foreground); }
+.xsd-diagram .sep { stroke: var(--vscode-panel-border, rgba(128,128,128,.35)); }
+.xsd-diagram .comp rect { fill: rgba(47,143,131,.18); stroke: #2f8f83; }
+.xsd-diagram .comp.choice rect { fill: rgba(201,122,29,.18); stroke: #c97a1d; }
+.xsd-diagram .comp.all rect { fill: rgba(119,86,192,.2); stroke: #7756c0; }
+.xsd-diagram .t-comp { font-weight: 600; font-size: 11px; fill: var(--vscode-foreground); }
+.xsd-diagram .small rect { fill: rgba(128,128,128,.08); stroke: var(--vscode-descriptionForeground); stroke-dasharray: 4 3; }
+.xsd-diagram .t-small { font-size: 11.5px; fill: var(--vscode-foreground); }
+.xsd-diagram .t-occ { font-size: 10.5px; font-family: var(--vscode-editor-font-family); fill: var(--vscode-descriptionForeground); }
+.xsd-diagram .tg { cursor: pointer; }
+.xsd-diagram .tg circle { fill: var(--vscode-editor-background); stroke: #5f87ab; stroke-width: 1.2; }
+.xsd-diagram .tg path { stroke: var(--vscode-foreground); stroke-width: 1.5; }
+.xsd-diagram .tg:hover circle { fill: var(--vscode-list-hoverBackground); }
+#err { padding: 24px 28px; }
+#err[hidden] { display: none; }
+#err h2 { margin-top: 0; font-size: 16px; }
+#statusbar { padding: 2px 10px; border-top: 1px solid var(--vscode-panel-border, rgba(128,128,128,.35)); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#footer { min-height: 0; }
+.pad[data-d="1"]{width:14px}.pad[data-d="2"]{width:28px}.pad[data-d="3"]{width:42px}.pad[data-d="4"]{width:56px}.pad[data-d="5"]{width:70px}.pad[data-d="6"]{width:84px}.pad[data-d="7"]{width:98px}.pad[data-d="8"]{width:112px}.pad[data-d="9"]{width:126px}.pad[data-d="10"]{width:140px}.pad[data-d="11"]{width:154px}.pad[data-d="12"]{width:168px}
